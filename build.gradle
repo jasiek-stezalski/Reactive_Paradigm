@@ -1,0 +1,48 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.10'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+def springfoxVersion = '3.0.0'
+def springfoxUiVersion = '2.9.2'
+
+
+group 'com.griddynamics.reactive.course'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'junit:junit:4.13.1'
+    implementation('org.apache.commons:commons-lang3:3.12.0')
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    //webclient-dependencies
+    implementation 'org.springframework:spring-webflux:5.3.4'
+    implementation 'io.projectreactor.netty:reactor-netty:1.0.4'
+    //jackson dependencies
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.11.1'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.11.1'
+
+    implementation "io.springfox:springfox-swagger2:${springfoxVersion}"
+    implementation "io.springfox:springfox-swagger-ui:${springfoxUiVersion}"
+    implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test:3.4.9'
+}
+
+test {
+    useJUnitPlatform()
+}
