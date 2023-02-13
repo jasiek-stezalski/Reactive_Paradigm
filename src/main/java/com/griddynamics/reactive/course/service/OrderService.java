@@ -8,11 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.util.context.Context;
 
 import java.util.Comparator;
-import java.util.List;
 
 import static com.griddynamics.reactive.course.logging.Logger.logOnError;
 import static com.griddynamics.reactive.course.logging.Logger.logOnNext;
@@ -30,7 +28,7 @@ public class OrderService {
         this.productService = productService;
     }
 
-    public Mono<List<OrderWithProducts>> getOrdersWithProducts(String phoneNumber, String requestId) {
+    public Flux<OrderWithProducts> getOrdersWithProducts(String phoneNumber, String requestId) {
         Flux<Order> ordersByPhoneNumber = getOrdersByPhoneNumber(phoneNumber, requestId);
         return ordersByPhoneNumber.flatMap(order -> {
             Flux<Product> productByProductCode = productService.getProductByProductCode(order.getProductCode(), requestId);
@@ -41,7 +39,7 @@ public class OrderService {
                         products.sort(Comparator.comparing(Product::getScore).reversed());
                         return new OrderWithProducts(order, products.get(0));
                     });
-        }).collectList();
+        });
     }
 
     private Flux<Order> getOrdersByPhoneNumber(String phoneNumber, String requestId) {
